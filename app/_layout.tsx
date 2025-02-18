@@ -1,39 +1,29 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import { View } from "react-native";
+import React, { useState } from "react";
+import { StatusBar } from "expo-status-bar";
+import TemperatureApp from "@/components/TemperatureApp";
+import RandomColorApp from "@/components/RandomColorApp";
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+// AQUI ESTAN LAS DOS APLICACIONES.
+// App1: TemperatureApp
+// App2: RandomColorApp
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
-
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
+const _layout = () => {
+  const [color, setcolor] = useState("#121212");
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: `${color}`,
+      }}
+    >
+      {/* <TemperatureApp /> */}
+      <RandomColorApp color={color} setcolor={setcolor}/>
+      {/* <StatusBar style="dark" hidden={true} backgroundColor="transparent" /> */}
+    </View>
   );
-}
+};
+
+export default _layout;
